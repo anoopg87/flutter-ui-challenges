@@ -66,29 +66,26 @@ class _SearchPageState extends State<SearchPage> {
               SizedBox(
                 height: 32,
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FilterItem(
-                      menuIcon: Icon(MdiIcons.silverware),
-                      menuString: "Restaurant",
-                    ),
-                    FilterItem(
-                      menuIcon: Icon(MdiIcons.bedDouble),
-                      menuString: "Hotel",
-                    ),
-                    FilterItem(
-                      menuIcon: Icon(MdiIcons.movie),
-                      menuString: "Movie",
-                    ),
-                    FilterItem(
-                      menuIcon: Icon(MdiIcons.calendarText),
-                      menuString: "Events",
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  FilterItem(
+                    menuIcon: Icon(MdiIcons.silverware),
+                    menuString: "Restaurant",
+                  ),
+                  FilterItem(
+                    menuIcon: Icon(MdiIcons.bedDouble),
+                    menuString: "Hotel",
+                  ),
+                  FilterItem(
+                    menuIcon: Icon(MdiIcons.movie),
+                    menuString: "Movie",
+                  ),
+                  FilterItem(
+                    menuIcon: Icon(MdiIcons.calendarText),
+                    menuString: "Events",
+                  ),
+                ],
               ),
               SizedBox(
                 height: 32,
