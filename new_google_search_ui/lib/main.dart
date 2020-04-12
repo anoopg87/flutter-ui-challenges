@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -11,6 +12,9 @@ class GoogleSearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.grey[100],
+    ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
@@ -30,23 +34,14 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: Container(
           child: ListView(
             children: <Widget>[
               Header(),
-              SizedBox(
-                height: 24,
-              ),
               GoogleLogo(),
-              SizedBox(
-                height: 24,
-              ),
               SearchBar(),
-              SizedBox(
-                height: 24,
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -71,26 +66,29 @@ class _SearchPageState extends State<SearchPage> {
               SizedBox(
                 height: 32,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.silverware),
-                    menuString: "Restaurant",
-                  ),
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.bedDouble),
-                    menuString: "Hotel",
-                  ),
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.movie),
-                    menuString: "Movie",
-                  ),
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.calendarText),
-                    menuString: "Events",
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FilterItem(
+                      menuIcon: Icon(MdiIcons.silverware),
+                      menuString: "Restaurant",
+                    ),
+                    FilterItem(
+                      menuIcon: Icon(MdiIcons.bedDouble),
+                      menuString: "Hotel",
+                    ),
+                    FilterItem(
+                      menuIcon: Icon(MdiIcons.movie),
+                      menuString: "Movie",
+                    ),
+                    FilterItem(
+                      menuIcon: Icon(MdiIcons.calendarText),
+                      menuString: "Events",
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 32,
@@ -119,8 +117,14 @@ class Header extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        IconButton(icon: Icon(MdiIcons.menu), onPressed: () {},),
-        IconButton(icon: Icon(MdiIcons.dotsVertical), onPressed: () {},)
+        IconButton(
+          icon: Icon(MdiIcons.menu),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(MdiIcons.dotsVertical),
+          onPressed: () {},
+        )
       ],
     );
   }
@@ -143,23 +147,23 @@ class FilterItem extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: 60,
-              width: 60,
+              height: 56,
+              width: 56,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.grey[300],
+                color: Colors.grey[100],
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey[600],
+                    color: Colors.grey[500],
                     blurRadius: 10,
                     spreadRadius: 1,
-                    offset: Offset(-4, -2),
+                    offset: Offset(2, 2),
                   ),
                   BoxShadow(
                     color: Colors.white,
-                    blurRadius: 10,
+                    blurRadius: 8,
                     spreadRadius: 1,
-                    offset: Offset(4, 4),
+                    offset: Offset(-4, -4),
                   ),
                 ],
               ),
@@ -178,7 +182,7 @@ class FilterItem extends StatelessWidget {
         ),
         Text(
           menuString,
-          style: TextStyle(color: Colors.blue[700]),
+          style: TextStyle(color: Colors.black),
         ),
       ],
     );
@@ -194,39 +198,40 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(32.0),
         child: Container(
-          height: 56,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Colors.grey[300],
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey[600],
-                blurRadius: 10,
-                spreadRadius: 1,
-                offset: Offset(-4, -2),
-              ),
-              BoxShadow(
-                color: Colors.white,
-                blurRadius: 10,
-                spreadRadius: 1,
-                offset: Offset(4, 8),
-              ),
-            ],
-            borderRadius: BorderRadius.circular(50),
-          ),
+          height: 48,
           child: Center(
             child: Padding(
-              padding: EdgeInsets.only(right: 16, left: 32),
+              padding: EdgeInsets.only(right: 8,left: 32),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: "Search or type web address",
+                  hintStyle: TextStyle(color: Colors.grey[500]),
                   border: InputBorder.none,
                   suffixIcon: Icon(MdiIcons.microphone),
                 ),
               ),
             ),
+          ),
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: Colors.grey[100],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey[300],
+                blurRadius: 4,
+                spreadRadius: 4,
+                offset: Offset(-4, -6),
+              ),
+              BoxShadow(
+                color: Colors.white,
+                blurRadius: 4,
+                spreadRadius: 2,
+                offset: Offset(2, 2),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(100),
           ),
         ),
       ),
@@ -247,49 +252,49 @@ class GoogleLogo extends StatelessWidget {
           children: <TextSpan>[
             TextSpan(
               text: "G",
-              style: GoogleFonts.martelSans(
+              style: GoogleFonts.scheherazade(
                 color: Colors.blue[700],
-                fontSize: 40,
+                fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
               text: "o",
-              style: GoogleFonts.martelSans(
+              style: GoogleFonts.scheherazade(
                 color: Colors.red[700],
-                fontSize: 40,
+                fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
               text: "o",
-              style: GoogleFonts.martelSans(
+              style: GoogleFonts.scheherazade(
                 color: Colors.yellow[700],
-                fontSize: 40,
+                fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
               text: "g",
-              style: GoogleFonts.martelSans(
+              style: GoogleFonts.scheherazade(
                 color: Colors.blue[700],
-                fontSize: 40,
+                fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
               text: "l",
-              style: GoogleFonts.martelSans(
+              style: GoogleFonts.scheherazade(
                 color: Colors.green[700],
-                fontSize: 40,
+                fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
               text: "e",
-              style: GoogleFonts.martelSans(
+              style: GoogleFonts.scheherazade(
                 color: Colors.red[700],
-                fontSize: 40,
+                fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
             ),
