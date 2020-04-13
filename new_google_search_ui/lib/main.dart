@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+enum PageTheme { Dark, Light }
+
 void main() => runApp(GoogleSearchPage());
 
 class GoogleSearchPage extends StatelessWidget {
@@ -12,19 +14,59 @@ class GoogleSearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.grey[100],
-    ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
-      home: SearchPage(),
+      home: MainPage(),
+    );
+  }
+}
+
+class MainPage extends StatefulWidget {
+  MainPage({Key key}) : super(key: key);
+
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SearchPage(
+                            pageTheme: PageTheme.Light,
+                          )));
+            },
+            child: Text("Light Google search page"),
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SearchPage(
+                            pageTheme: PageTheme.Dark,
+                          )));
+            },
+            child: Text("Dark Google search page"),
+          )
+        ],
+      ),
     );
   }
 }
 
 class SearchPage extends StatefulWidget {
-  SearchPage({Key key}) : super(key: key);
+  final PageTheme pageTheme;
+  SearchPage({Key key, this.pageTheme}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -33,34 +75,73 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
+    final controlColor = widget.pageTheme == PageTheme.Dark
+        ? Colors.grey[100]
+        : Colors.grey[900];
+    final bgColor = widget.pageTheme == PageTheme.Dark
+        ? Colors.grey[900]
+        : Colors.grey[100];
+    final topShadowColor =
+        widget.pageTheme == PageTheme.Dark ? Colors.black : Colors.white;
+    final bottomShadowColor = widget.pageTheme == PageTheme.Dark
+        ? Colors.grey[800]
+        : Colors.grey[500];
+    final iconColor = widget.pageTheme == PageTheme.Dark
+        ? Colors.blue[700]
+        : Colors.blue[700];
+    final textColor =
+        widget.pageTheme == PageTheme.Dark ? Colors.white : Colors.black;
+
+    final searchBarTopShadowColor = widget.pageTheme == PageTheme.Dark
+        ? Colors.grey[850]
+        : Colors.grey[500];
+    final searchBarBottomShadowColor =
+        widget.pageTheme == PageTheme.Dark ? Colors.black : Colors.white;
+    final searchBarBgColor = widget.pageTheme == PageTheme.Dark
+        ? Colors.grey[900]
+        : Colors.grey[100];
+    final hintTextColor = widget.pageTheme == PageTheme.Dark
+        ? Colors.grey[700]
+        : Colors.grey[500];
+
+    FilterItem buildFilterItem(Icon icon, String text) {
+      return FilterItem(
+        menuIcon: icon,
+        menuString: text,
+        bgColor: bgColor,
+        topShadowColor: topShadowColor,
+        bottomShadowColor: bottomShadowColor,
+        iconColor: iconColor,
+        textColor: textColor,
+      );
+    }
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: bgColor,
+    ));
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: bgColor,
       body: SafeArea(
         child: Container(
           child: ListView(
             children: <Widget>[
-              Header(),
+              Header(
+                controlColor: controlColor,
+              ),
               GoogleLogo(),
-              SearchBar(),
+              SearchBar(
+                searchBarBgColor: searchBarBgColor,
+                searchBarTopShadowColor: searchBarTopShadowColor,
+                searchBarBottomShadowColor: searchBarBottomShadowColor,
+                hintTextColor: hintTextColor,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.airplaneTakeoff),
-                    menuString: "Flight",
-                  ),
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.bus),
-                    menuString: "Bus",
-                  ),
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.trainVariant),
-                    menuString: "Train",
-                  ),
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.taxi),
-                    menuString: "Taxi",
-                  ),
+                  buildFilterItem(Icon(MdiIcons.airplaneTakeoff), "Flights"),
+                  buildFilterItem(Icon(MdiIcons.bus), "Bus"),
+                  buildFilterItem(Icon(MdiIcons.trainVariant), "Train"),
+                  buildFilterItem(Icon(MdiIcons.taxi), "Taxi"),
                 ],
               ),
               SizedBox(
@@ -69,22 +150,10 @@ class _SearchPageState extends State<SearchPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.silverware),
-                    menuString: "Restaurant",
-                  ),
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.bedDouble),
-                    menuString: "Hotel",
-                  ),
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.movie),
-                    menuString: "Movie",
-                  ),
-                  FilterItem(
-                    menuIcon: Icon(MdiIcons.calendarText),
-                    menuString: "Events",
-                  ),
+                  buildFilterItem(Icon(MdiIcons.silverware), "Restaurant"),
+                  buildFilterItem(Icon(MdiIcons.bedDouble), "Hotel"),
+                  buildFilterItem(Icon(MdiIcons.movie), "Movie"),
+                  buildFilterItem(Icon(MdiIcons.calendarText), "Events"),
                 ],
               ),
               SizedBox(
@@ -94,6 +163,11 @@ class _SearchPageState extends State<SearchPage> {
                 child: FilterItem(
                   menuIcon: Icon(MdiIcons.plus),
                   menuString: "More",
+                  bgColor: bgColor,
+                  topShadowColor: topShadowColor,
+                  bottomShadowColor: bottomShadowColor,
+                  iconColor: Colors.orange[700],
+                  textColor: textColor,
                 ),
               )
             ],
@@ -105,8 +179,10 @@ class _SearchPageState extends State<SearchPage> {
 }
 
 class Header extends StatelessWidget {
+  final Color controlColor;
   const Header({
     Key key,
+    this.controlColor,
   }) : super(key: key);
 
   @override
@@ -115,11 +191,17 @@ class Header extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          icon: Icon(MdiIcons.menu),
+          icon: Icon(
+            MdiIcons.menu,
+            color: controlColor,
+          ),
           onPressed: () {},
         ),
         IconButton(
-          icon: Icon(MdiIcons.dotsVertical),
+          icon: Icon(
+            MdiIcons.dotsVertical,
+            color: controlColor,
+          ),
           onPressed: () {},
         )
       ],
@@ -130,10 +212,20 @@ class Header extends StatelessWidget {
 class FilterItem extends StatelessWidget {
   final Icon menuIcon;
   final String menuString;
+  final Color bgColor;
+  final Color topShadowColor;
+  final Color bottomShadowColor;
+  final Color textColor;
+  final Color iconColor;
   const FilterItem({
     Key key,
     this.menuIcon,
     this.menuString,
+    this.topShadowColor,
+    this.bottomShadowColor,
+    this.textColor,
+    this.iconColor,
+    this.bgColor,
   }) : super(key: key);
 
   @override
@@ -148,16 +240,16 @@ class FilterItem extends StatelessWidget {
               width: 56,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.grey[100],
+                color: bgColor, 
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey[500],
+                    color: topShadowColor, 
                     blurRadius: 10,
                     spreadRadius: 1,
                     offset: Offset(2, 2),
                   ),
                   BoxShadow(
-                    color: Colors.white,
+                    color: bottomShadowColor, 
                     blurRadius: 8,
                     spreadRadius: 1,
                     offset: Offset(-4, -4),
@@ -166,7 +258,7 @@ class FilterItem extends StatelessWidget {
               ),
               child: Center(
                 child: IconButton(
-                  color: Colors.blue[700],
+                  color: iconColor,
                   icon: menuIcon,
                   onPressed: () {},
                 ),
@@ -179,7 +271,7 @@ class FilterItem extends StatelessWidget {
         ),
         Text(
           menuString,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: textColor),
         ),
       ],
     );
@@ -187,8 +279,17 @@ class FilterItem extends StatelessWidget {
 }
 
 class SearchBar extends StatelessWidget {
+  final Color searchBarBgColor;
+  final Color searchBarTopShadowColor;
+  final Color searchBarBottomShadowColor;
+  final Color hintTextColor;
+
   const SearchBar({
     Key key,
+    this.searchBarBgColor,
+    this.searchBarTopShadowColor,
+    this.searchBarBottomShadowColor,
+    this.hintTextColor,
   }) : super(key: key);
 
   @override
@@ -200,29 +301,33 @@ class SearchBar extends StatelessWidget {
           height: 48,
           child: Center(
             child: Padding(
-              padding: EdgeInsets.only(right: 8,left: 32),
+              padding: EdgeInsets.only(right: 8, left: 32),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: "Search or type web address",
-                  hintStyle: TextStyle(color: Colors.grey[500]),
+                  hintStyle:
+                      TextStyle(color: hintTextColor), 
                   border: InputBorder.none,
-                  suffixIcon: Icon(MdiIcons.microphone),
+                  suffixIcon: Icon(
+                    MdiIcons.microphone,
+                    color: Colors.blue[700],
+                  ),
                 ),
               ),
             ),
           ),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            color: Colors.grey[100],
+            color: searchBarBgColor, 
             boxShadow: [
               BoxShadow(
-                color: Colors.grey[300],
+                color: searchBarTopShadowColor, 
                 blurRadius: 4,
                 spreadRadius: 4,
                 offset: Offset(-4, -6),
               ),
               BoxShadow(
-                color: Colors.white,
+                color: searchBarBottomShadowColor, 
                 blurRadius: 4,
                 spreadRadius: 2,
                 offset: Offset(2, 2),
