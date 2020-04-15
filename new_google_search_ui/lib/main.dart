@@ -39,22 +39,26 @@ class _MainPageState extends State<MainPage> {
           RaisedButton(
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SearchPage(
-                            pageTheme: PageTheme.Light,
-                          )));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchPage(
+                    pageTheme: PageTheme.Light,
+                  ),
+                ),
+              );
             },
             child: Text("Light Google search page"),
           ),
           RaisedButton(
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SearchPage(
-                            pageTheme: PageTheme.Dark,
-                          )));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchPage(
+                    pageTheme: PageTheme.Dark,
+                  ),
+                ),
+              );
             },
             child: Text("Dark Google search page"),
           )
@@ -240,16 +244,16 @@ class FilterItem extends StatelessWidget {
               width: 56,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: bgColor, 
+                color: bgColor,
                 boxShadow: [
                   BoxShadow(
-                    color: topShadowColor, 
+                    color: topShadowColor,
                     blurRadius: 10,
                     spreadRadius: 1,
                     offset: Offset(2, 2),
                   ),
                   BoxShadow(
-                    color: bottomShadowColor, 
+                    color: bottomShadowColor,
                     blurRadius: 8,
                     spreadRadius: 1,
                     offset: Offset(-4, -4),
@@ -305,8 +309,7 @@ class SearchBar extends StatelessWidget {
               child: TextField(
                 decoration: InputDecoration(
                   hintText: "Search or type web address",
-                  hintStyle:
-                      TextStyle(color: hintTextColor), 
+                  hintStyle: TextStyle(color: hintTextColor),
                   border: InputBorder.none,
                   suffixIcon: Icon(
                     MdiIcons.microphone,
@@ -318,16 +321,16 @@ class SearchBar extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            color: searchBarBgColor, 
+            color: searchBarBgColor,
             boxShadow: [
               BoxShadow(
-                color: searchBarTopShadowColor, 
+                color: searchBarTopShadowColor,
                 blurRadius: 4,
                 spreadRadius: 4,
                 offset: Offset(-4, -6),
               ),
               BoxShadow(
-                color: searchBarBottomShadowColor, 
+                color: searchBarBottomShadowColor,
                 blurRadius: 4,
                 spreadRadius: 2,
                 offset: Offset(2, 2),
